@@ -5,50 +5,85 @@ class OrderForm extends Component {
     super();
     this.props = props;
     this.state = {
-      name: '',
-      ingredients: []
+      name: "",
+      ingredients: [],
     };
   }
 
-
-  handleSubmit = e => {
+  handleIngredientChange = (e) => {
     e.preventDefault();
-    this.clearInputs();
+    this.setState({
+      ...this.state,
+      ingredients: [...this.state.ingredients, e.target.name],
+    });
+  };
+
+  handleNameChange = (e) => {
+    this.setState({
+      ...this.state,
+      name: e.target.value
+    });
   }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.submitOrder(this.state);
+    this.clearInputs();
+  };
 
   clearInputs = () => {
-    this.setState({name: '', ingredients: []});
-  }
+    this.setState({ name: "", ingredients: [] });
+  };
 
   render() {
-    const possibleIngredients = ['beans', 'steak', 'carnitas', 'sofritas', 'lettuce', 'queso fresco', 'pico de gallo', 'hot sauce', 'guacamole', 'jalapenos', 'cilantro', 'sour cream'];
-    const ingredientButtons = possibleIngredients.map(ingredient => {
+    const possibleIngredients = [
+      "beans",
+      "steak",
+      "carnitas",
+      "sofritas",
+      "lettuce",
+      "queso fresco",
+      "pico de gallo",
+      "hot sauce",
+      "guacamole",
+      "jalapenos",
+      "cilantro",
+      "sour cream",
+    ];
+    const ingredientButtons = possibleIngredients.map((ingredient) => {
       return (
-        <button key={ingredient} name={ingredient} onClick={e => this.handleIngredientChange(e)}>
+        <button
+          key={ingredient}
+          name={ingredient}
+          onClick={(e) => this.handleIngredientChange(e)}
+        >
           {ingredient}
         </button>
-      )
+      );
     });
 
     return (
       <form>
         <input
-          type='text'
-          placeholder='Name'
-          name='name'
+          type="text"
+          placeholder="Name"
+          name="name"
           value={this.state.name}
-          onChange={e => this.handleNameChange(e)}
+          onChange={(e) => this.handleNameChange(e)}
         />
 
-        { ingredientButtons }
+        {ingredientButtons}
 
-        <p>Order: { this.state.ingredients.join(', ') || 'Nothing selected' }</p>
+        <p>Order: {this.state.ingredients.join(", ") || "Nothing selected"}</p>
 
-        <button onClick={e => this.handleSubmit(e)}>
+        <button
+          disabled={!this.state.name || !this.state.ingredients}
+          onClick={(e) => this.handleSubmit(e)}
+        >
           Submit Order
         </button>
       </form>
-    )
+    );
   }
 }
 
