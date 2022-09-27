@@ -16,7 +16,25 @@ const postOrder = (order) => {
     .then((data) => data);
 }
 
+const deleteOrder = (id) => {
+  return fetch(`http://localhost:3001/api/v1/orders/${id}`, {
+    method: "DELETE",
+  })
+  .then((response) => {
+    if(!response.ok) {
+      throw new Error('Oops, looks like something went wrong.')
+    } else {
+      console.log(response);
+      return 'This order has been completed.'
+    }
+  })
+  .catch(err => {
+    throw err
+  })
+}
+
 export {
   getOrders,
-  postOrder
+  postOrder,
+  deleteOrder
 }

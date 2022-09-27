@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { getOrders, postOrder } from '../../apiCalls';
+import { getOrders, postOrder, deleteOrder } from '../../apiCalls';
 import Orders from '../../components/Orders/Orders';
 import OrderForm from '../../components/OrderForm/OrderForm';
 
@@ -26,6 +26,16 @@ class App extends Component {
     .catch(err => console.log('Error posting', err))
   }
 
+  finishOrder = (id) => {
+    deleteOrder(id)
+      .then(msg => {
+        console.log(msg);
+        const updatedOrders = this.state.orders.filter(order => order.id !== id);
+        this.setState({ orders: updatedOrders });
+      })
+      .catch(err => console.log(err));
+  }
+
   render() {
     return (
       <main className="App">
@@ -34,7 +44,7 @@ class App extends Component {
           <OrderForm submitOrder={this.submitOrder} />
         </header>
 
-        <Orders orders={this.state.orders}/>
+        <Orders orders={this.state.orders} finishOrder={this.finishOrder}/>
       </main>
     );
   }

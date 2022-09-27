@@ -11,6 +11,7 @@ const Orders = props => {
             return <li key={Date.now() + (i + 1)}>{ingredient}</li>
           })}
         </ul>
+        <button onClick={() => props.finishOrder(order.id)}>Done</button>
       </div>
     )
   });

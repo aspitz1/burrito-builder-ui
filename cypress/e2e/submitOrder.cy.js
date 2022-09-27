@@ -1,7 +1,7 @@
 import existingOrders from '../fixtures/existingOrders.json';
 import postResponse from '../fixtures/postResponse.json';
 
-describe('empty spec', () => {
+describe('submit order spec', () => {
   beforeEach(() => {
     cy.intercept("http://localhost:3001/api/v1/orders", existingOrders)
     .visit(
